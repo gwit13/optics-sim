@@ -173,6 +173,29 @@ class OpticalSystem {
         const d_o = firstLensZ - objectZ; // Distance from object to first lens
         
         const { A, B, C, D } = matrix;
+
+        // Handle Infinite Object
+        if (!isFinite(d_o)) {
+            // Image is at Back Focal Plane
+            // d_i = -A / C
+            // If C is 0 (afocal), image is at infinity
+            if (Math.abs(C) < 1e-10) {
+                return {
+                    z: Infinity,
+                    mag: 0,
+                    isVirtual: false
+                };
+            }
+
+            const d_i = -A / C;
+            const imageZ = lastLensZ + d_i;
+
+            return {
+                z: imageZ,
+                mag: null, // Magnification is not defined (or 0) for infinite object, usually we talk about angular mag or plate scale.
+                isVirtual: d_i < 0 // Relative to last lens?
+            };
+        }
         
         const numerator = A * d_o + B;
         const denominator = C * d_o + D;
