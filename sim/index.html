@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Optics Lab</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Controls -->
+        <aside class="sidebar">
+            <h2>Optical System</h2>
+            
+            <div class="control-group">
+                <h3>Object</h3>
+                <label>
+                    Mode:
+                    <select id="object-mode">
+                        <option value="point">Point Source</option>
+                        <option value="infinity">Infinity (Parallel)</option>
+                    </select>
+                </label>
+                <div id="point-controls">
+                    <label>Position (Z): <input type="number" id="object-z" step="10" value="-200"></label>
+                    <label>Height (Y): <input type="number" id="object-y" step="5" value="0"></label>
+                </div>
+                <div id="infinity-controls" style="display: none;">
+                    <label>Angle (deg): <input type="number" id="object-angle" step="1" value="0"></label>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Lenses <button id="add-lens-btn">+</button></h3>
+                <div id="lens-list">
+                    <!-- Lens items will be injected here -->
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Rays</h3>
+                <label>Count: <input type="range" id="ray-count" min="3" max="50" value="10"> <span id="ray-count-val">10</span></label>
+            </div>
+
+            <div class="results-panel">
+                <h3>System Properties</h3>
+                <p><strong>EFL:</strong> <span id="res-efl">--</span></p>
+                <p><strong>BFL:</strong> <span id="res-bfl">--</span></p>
+                <p><strong>Total Mag (m):</strong> <span id="res-mag">--</span></p>
+                <p><strong>Image Pos (Z'):</strong> <span id="res-img-z">--</span></p>
+                <p><strong>Principal Planes:</strong></p>
+                <ul id="res-pp">
+                    <li>H: --</li>
+                    <li>H': --</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Canvas Area -->
+        <main class="canvas-wrapper">
+            <canvas id="optics-canvas"></canvas>
+            <div class="canvas-overlay">
+                <p>Drag Lenses/Object to move. Scroll to Zoom.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/optics.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
