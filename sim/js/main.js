@@ -43,7 +43,8 @@ function update() {
     
     // 3. Calculate Results
     const results = system.calculateCardinalPoints();
-    const imageInfo = system.calculateImage(state.object.z);
+    const objZ = state.object.mode === 'infinity' ? -Infinity : state.object.z;
+    const imageInfo = system.calculateImage(objZ);
     
     // 4. Update UI Results
     updateResultsPanel(results, imageInfo);
@@ -133,7 +134,7 @@ function updateResultsPanel(results, imageInfo) {
     set('res-efl', fmt(results.efl));
     set('res-bfl', fmt(results.bfl));
     
-    set('res-mag', imageInfo ? fmt(imageInfo.mag) : '--');
+    set('res-mag', (imageInfo && imageInfo.mag !== null) ? fmt(imageInfo.mag) : 'N/A');
     set('res-img-z', imageInfo ? (Math.abs(imageInfo.z) > 10000 ? 'Inf' : fmt(imageInfo.z)) : '--');
     
     const ppList = document.getElementById('res-pp');
