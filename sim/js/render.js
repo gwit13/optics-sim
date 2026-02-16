@@ -190,32 +190,85 @@ class Renderer {
         ctx.fillStyle = '#fff';
         ctx.font = '12px monospace';
         ctx.fillText("Obj", p.x + 8, p.y + 3);
+
+        // Draw Object Arrow (Up)
+        this.drawArrow(p.x, p.y, 40, true, '#f00');
     }
 
-    drawImagePoint(z, mag) {
+    drawImagePoint(z, mag, y = 0) {
         // If z is infinite, don't draw
         if (!isFinite(z)) return;
 
-        // Image height? We need object height.
-        // But render doesn't know object height directly unless passed.
-        // Usually we visualize the intersection of rays.
-        // But drawing a marker is helpful.
-        
-        // Let's just draw a vertical line at image plane?
+        // Image plane marker
         const ctx = this.ctx;
-        const p = this.toCanvas(z, 0); // On axis
+        const pAxis = this.toCanvas(z, 0); // On axis
 
         ctx.strokeStyle = '#f0f'; // Magenta
         ctx.setLineDash([5, 5]);
         ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.moveTo(p.x, 0);
-        ctx.lineTo(p.x, this.canvas.height);
+        ctx.moveTo(pAxis.x, 0);
+        ctx.lineTo(pAxis.x, this.canvas.height);
         ctx.stroke();
         ctx.setLineDash([]);
 
         ctx.fillStyle = '#f0f';
-        ctx.fillText("Img", p.x + 5, this.offsetY - 10);
+        ctx.fillText("Img", pAxis.x + 5, this.offsetY - 10);
+
+        // Draw Image Point and Arrow
+        if (mag !== null && isFinite(mag)) {
+            const p = this.toCanvas(z, y);
+
+            ctx.fillStyle = '#f0f';
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Arrow Direction: Up if mag > 0, Down if mag < 0
+            const pointsUp = mag > 0;
+            this.drawArrow(p.x, p.y, 40, pointsUp, '#f0f');
+        }
+    }
+
+    drawArrow(x, y, length, pointsUp, color) {
+        const ctx = this.ctx;
+        ctx.strokeStyle = color;
+        ctx.fillStyle = color;
+        ctx.lineWidth = 2;
+
+        const halfLen = length / 2;
+        // In canvas Y, smaller is higher.
+        // pointsUp means arrow points to smaller Y.
+
+        // Let's center the arrow at (x,y)
+        // If pointsUp: Top is y - halfLen, Bottom is y + halfLen
+        // If pointsDown: Top is y - halfLen, Bottom is y + halfLen (but arrow head at bottom)
+
+        const topY = y - halfLen;
+        const bottomY = y + halfLen;
+
+        ctx.beginPath();
+        ctx.moveTo(x, topY);
+        ctx.lineTo(x, bottomY);
+        ctx.stroke();
+
+        // Arrow Head
+        const headSize = 8;
+        ctx.beginPath();
+        if (pointsUp) {
+            // Head at topY
+            ctx.moveTo(x - headSize/2, topY + headSize);
+            ctx.lineTo(x, topY);
+            ctx.lineTo(x + headSize/2, topY + headSize);
+            ctx.closePath();
+        } else {
+            // Head at bottomY
+            ctx.moveTo(x - headSize/2, bottomY - headSize);
+            ctx.lineTo(x, bottomY);
+            ctx.lineTo(x + headSize/2, bottomY - headSize);
+            ctx.closePath();
+        }
+        ctx.fill();
     }
 
     drawPrincipalPlanes() {

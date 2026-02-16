@@ -121,7 +121,12 @@ function draw(imageInfo) {
     }
     
     if (imageInfo && Math.abs(imageInfo.z) < 1e5) {
-        renderer.drawImagePoint(imageInfo.z, imageInfo.mag);
+        // Calculate image Y
+        const imgY = (state.object.mode === 'point' && imageInfo.mag !== null && isFinite(imageInfo.mag))
+            ? state.object.y * imageInfo.mag
+            : 0;
+
+        renderer.drawImagePoint(imageInfo.z, imageInfo.mag, imgY);
     }
 }
 
