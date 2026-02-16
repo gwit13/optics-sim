@@ -25,9 +25,10 @@ class Renderer {
     resize() {
         this.canvas.width = this.canvas.clientWidth;
         this.canvas.height = this.canvas.clientHeight;
-        // Re-center if needed, or keep current offset
-        // this.offsetX = this.canvas.width / 2;
-        // this.offsetY = this.canvas.height / 2;
+        
+        // re-center canvas on optical axis
+        this.offsetX = this.canvas.width / 2;
+        this.offsetY = this.canvas.height / 2;
         this.draw();
     }
 
