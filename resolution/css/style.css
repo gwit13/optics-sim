@@ -1,0 +1,149 @@
+:root {
+    --bg-color: #1a1a1a;
+    --panel-bg: #2a2a2a;
+    --text-color: #f0f0f0;
+    --accent-color: #4CAF50;
+    --input-bg: #333;
+    --border-color: #444;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    overflow: hidden; /* Prevent scrollbar on main body */
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 300px;
+    background-color: var(--panel-bg);
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+    overflow-y: auto;
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.control-group {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.control-group h3 {
+    margin-top: 0;
+    font-size: 16px;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+label span {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #aaa;
+    text-align: right;
+}
+
+input[type="number"], input[type="file"], select {
+    width: 100%;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 5px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.actions {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    font-weight: bold;
+}
+
+button:hover {
+    filter: brightness(1.1);
+}
+
+.canvas-wrapper {
+    flex-grow: 1;
+    background-color: #000;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.display-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.view-panel {
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.view-panel h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.canvas-container {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.canvas-container.large {
+    aspect-ratio: 2 / 1;
+}
+
+canvas {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.results-panel p {
+    margin: 5px 0;
+    font-size: 14px;
+}
